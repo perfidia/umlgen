@@ -30,6 +30,7 @@
             <from>e_1</from>
             <!-- use id from process or entities -->
             <to>p_0</to>
+            <!-- is empty if omitted -->
             <label>a connection</label>
         </connection>
     </connections>
