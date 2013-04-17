@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
-from model import *
-from simple_visitor import *
+from umlgen import *
 
 def main():
     entity_1 = Entity("id_1", "one", ENTITY_TYPE_HUMAN)
