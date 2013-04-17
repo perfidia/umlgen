@@ -10,7 +10,13 @@ def main():
     process.add_child(entity_1)
     process.add_child(entity_2)
     
+    entity_1.add_child(entity_2)
+    entity_2.add_child(entity_1)
+    
     context = ContextDiagram(process)
+    
+    v = SimpleVisitor()
+    context.accept(v)
     
     return
 

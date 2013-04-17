@@ -2,13 +2,22 @@
 
 class SimpleVisitor(object):
     def __init__(self):
-        pass
+        self._visited_ids = []
+        self._spaces = ""
+    
+    def visited(self, element):
+        e_id = element.get_id()
+        if self._visited_ids.count(e_id) == 0:
+            self._visited_ids.append(e_id)
+            return False
+        
+        return True
     
     def visit_context_diagram(self, context_diagram):
-        pass
+        print "context:"
     
     def visit_process(self, process):
-        pass
+        print "process:", process.get_id()
     
     def visit_entity(self, entity):
-        pass
+        print "entity:", entity.get_id()

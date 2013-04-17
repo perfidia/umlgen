@@ -10,11 +10,18 @@ class Entity(object):
         self._type = e_type
         self._children = []
         
-    def accept(self, v):
+    def get_id(self):
+        return self._id
+        
+    def _accept_children(self, v):
         for child in self._children:
             "prevent infinite loops"
             if not v.visited(child):
                 child.accept(v)
+        
+    def accept(self, v):
+        self._accept_children(v)
+        v.visit_entity(self)
                 
     def add_child(self, child):
         self._children.append(child)
@@ -22,6 +29,10 @@ class Entity(object):
 class Process(Entity):
     def __init__(self, p_id, p_label):
         super(Process, self).__init__(p_id, p_label, ENTITY_TYPE_SYSTEM)
+        
+    def accept(self, v):
+        self._accept_children(v)
+        v.visit_process(self)
 
 class ContextDiagram(object):
     "main object on which the visitor will work"
