@@ -1,0 +1,36 @@
+<!-- there has to be some root -->
+<context>
+    <!-- there is only one process node -->
+    <process>
+        <label>system</label>
+        <!-- id is a string -->
+        <id>p_0</id>
+    </process>
+    
+    <!-- collection of entities -->
+    <entities>
+        <entity>
+            <!-- id is a string -->
+            <id>0</id>
+            <label>HDE</label>
+            <!-- type can be a human or a system -->
+            <type>system</type>
+        </entity>
+        <entity>
+            <id>e_1</id>
+            <label>HDE</label>
+            <type>human</type>
+        </entity>
+    </entities>
+    
+    <!-- a collection of connections -->
+    <connections>
+        <connection>
+            <!-- use id from process or entities -->
+            <from>e_1</from>
+            <!-- use id from process or entities -->
+            <to>p_0</to>
+            <label>a connection</label>
+        </connection>
+    </connections>
+</context>
