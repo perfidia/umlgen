@@ -1,18 +1,20 @@
+# -*- coding: utf-8 -*-
+
 class StateDiagram(object):
 	def __init__(self):
 		self.states = []
 		self.transitions = []
 
-	def appendState(self, state):
+	def append_state(self, state):
 		self.states.append(state)
-		
+
 		return self
-		
-	def appendTransition(self, transition):
+
+	def append_transition(self, transition):
 		self.transitions.append(transition)
 
 		return self
-		
+
 class State(object):
 	def __init__(self, name, on_entry = None, on_exit = None, predecessors = None, successors = None):
 		self.name = name
@@ -22,27 +24,25 @@ class State(object):
 		self.successors = []
 
 		if predecessors:
-			for predecessor in predecessors:
-				self.appendPredecessor(predecessor)
-				
-		if successors:
-			for successor in successors:
-				self.appendSuccessor(successor)
+			self.predecessors = predecessors
 
-	def appendPredecessor(self, predecessor):
+		if successors:
+			self.successors = successors
+
+	def append_predecessor(self, predecessor):
 		self.predecessors.append(predecessor)
-		
+
 		return self
-		
-	def appendSuccessor(self, successor):
+
+	def append_successor(self, successor):
 		self.successors.append(successor)
 
 		return self
-		
+
 class InitialState(State):
 	def __init__(self, successors = None):
 		State.__init__(self, "initial")
-		
+
 class FinalState(State):
 	def __init__(self, predecessors = None):
 		State.__init__(self, "final")
