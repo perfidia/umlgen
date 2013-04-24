@@ -14,6 +14,7 @@ class PILVisitor(object):
         self._entity_num = 0
         self._entity_positions = {}
         self._font = ImageFont.truetype("../fonts/OpenSans-Regular.ttf", 12)
+        self._process_id = None
         
     def save(self, path):
         self._image.save(path)
@@ -36,6 +37,10 @@ class PILVisitor(object):
                 
         for entity_id in self._entities:
             self._draw_connections(self._entities[entity_id])
+            
+        for entity_id in self._entities:
+            if entity_id != self._process_id:
+                self._draw_entity(self._entities[entity_id])
                 
     def _draw_connections(self, entity):
         children = entity.get_children()
@@ -48,9 +53,11 @@ class PILVisitor(object):
             self._ctx.line([from_pos, to_pos], "#00FF00", 2)
             self._ctx.text(((from_pos[0]+to_pos[0])/2, (from_pos[1]+to_pos[1])/2),
                        child["connection"].get_label(), "#121212", self._font)
+            
     
     
     def visit_process(self, process):
+        self._process_id = process.get_id()
         self._entity_positions[process.get_id()] = (self._size[0]/2, self._size[1]/2)
         process_size = (100, 100)
         self._ctx.ellipse(
@@ -65,11 +72,9 @@ class PILVisitor(object):
                        process.get_label(), "#121212", self._font)
         
         
+        
     def visit_entity(self, entity):
         radius = 160
-        entity_size = (80, 60)
-        
-        
         
         pos = self._circle_pos(radius, self._entity_num, len(self._entities)-1)
         self._entity_num = self._entity_num + 1
@@ -77,21 +82,25 @@ class PILVisitor(object):
         self._entity_positions[entity.get_id()] = (pos[0]+self._size[0]/2, 
                                                    pos[1]+self._size[1]/2)
         
+    def _draw_entity(self, entity):
+        entity_size = (80, 60)
+        pos = self._entity_positions[entity.get_id()]
+        
         if entity.get_type() == ENTITY_TYPE_HUMAN:
             human_actor = Image.open("../images/stick.png")
             entity_size = human_actor.size
             self._image.paste(human_actor, 
-                              (int(pos[0]+self._size[0]/2-entity_size[0]/2),
-                               int(pos[1]+self._size[1]/2-entity_size[1]/2)), 
+                              (int(pos[0]-entity_size[0]/2),
+                               int(pos[1]-entity_size[1]/2)), 
                               human_actor)
         else:
-            self._ctx.rectangle([(pos[0]+self._size[0]/2-entity_size[0]/2,
-                                  pos[1]+self._size[1]/2-entity_size[1]/2),
-                                 (pos[0]+self._size[0]/2+entity_size[0]/2,
-                                  pos[1]+self._size[1]/2+entity_size[1]/2)], "#4444DD")
+            self._ctx.rectangle([(pos[0]-entity_size[0]/2,
+                                  pos[1]-entity_size[1]/2),
+                                 (pos[0]+entity_size[0]/2,
+                                  pos[1]+entity_size[1]/2)], "#4444DD")
             
-        self._ctx.text((pos[0]+self._size[0]/2-entity_size[0]/2,
-                        pos[1]+self._size[1]/2+entity_size[1]/2+10),
+        self._ctx.text((pos[0]-entity_size[0]/2,
+                        pos[1]+entity_size[1]/2+10),
                        entity.get_label(), "#121212", self._font)
     
     def _circle_pos(self, radius, num_pos, all_pos):
