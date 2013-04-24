@@ -15,6 +15,7 @@ class XMLReader(object):
         entities[p.get_id()] = p
         self._make_connections(root, entities)
         c = ContextDiagram(p)
+        c.all_entities = entities
         
         return c
     

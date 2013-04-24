@@ -6,8 +6,9 @@ def main():
     r = XMLReader("../context/example.xml")
     context = r.create_graph()
     
-    v = SimpleVisitor()
+    v = PILVisitor((800, 500))
     context.accept(v)
+    v.save("path.png")
     
     return
 
