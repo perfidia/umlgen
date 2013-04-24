@@ -51,6 +51,31 @@ class PILVisitor(object):
             to_pos = self._entity_positions[child["child"].get_id()]
             
             self._ctx.line([from_pos, to_pos], "#ABABAB", 2)
+            
+            arrow_pos = (0.7*to_pos[0] + 0.3*from_pos[0],
+                           0.7*to_pos[1] + 0.3*from_pos[1])
+            
+            arrow_pos2 = (0.65*to_pos[0] + 0.35*from_pos[0],
+                           0.65*to_pos[1] + 0.35*from_pos[1])
+            
+            arrow_change = (arrow_pos2[0] - arrow_pos[0],
+                            arrow_pos2[1] - arrow_pos[1])
+            
+            vec = (0, -10)
+            
+            if arrow_change[1] != 0:
+                divided = float(arrow_change[0])/float(arrow_change[1])
+                vec = (10, -divided*10)
+                
+            change1 = (arrow_pos2[0] + vec[0],
+                       arrow_pos2[1] + vec[1])
+            change2 = (arrow_pos2[0] - vec[0],
+                       arrow_pos2[1] - vec[1])
+            
+            
+            self._ctx.line([arrow_pos, change1], "#ABABAB", 2)
+            self._ctx.line([arrow_pos, change2], "#ABABAB", 2)
+            
             self._ctx.text(((from_pos[0]+to_pos[0])/2+10, (from_pos[1]+to_pos[1])/2+10),
                        child["connection"].get_label(), "#121212", self._font)
             
