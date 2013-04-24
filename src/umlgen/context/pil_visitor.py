@@ -46,6 +46,8 @@ class PILVisitor(object):
             to_pos = self._entity_positions[child["child"].get_id()]
             
             self._ctx.line([from_pos, to_pos], "#00FF00", 2)
+            self._ctx.text(((from_pos[0]+to_pos[0])/2, (from_pos[1]+to_pos[1])/2),
+                       child["connection"].get_label(), "#121212", self._font)
     
     
     def visit_process(self, process):
@@ -57,6 +59,10 @@ class PILVisitor(object):
                            self._size[0]/2+process_size[0]/2,
                            self._size[1]/2+process_size[1]/2), 
                           "#991212")
+        
+        self._ctx.text((self._size[0]/2-process_size[0]/2,
+                        self._size[1]/2+process_size[1]/2+10),
+                       process.get_label(), "#121212", self._font)
         
         
     def visit_entity(self, entity):
@@ -83,6 +89,10 @@ class PILVisitor(object):
                                   pos[1]+self._size[1]/2-entity_size[1]/2),
                                  (pos[0]+self._size[0]/2+entity_size[0]/2,
                                   pos[1]+self._size[1]/2+entity_size[1]/2)], "#4444DD")
+            
+        self._ctx.text((pos[0]+self._size[0]/2-entity_size[0]/2,
+                        pos[1]+self._size[1]/2+entity_size[1]/2+10),
+                       entity.get_label(), "#121212", self._font)
     
     def _circle_pos(self, radius, num_pos, all_pos):
         px = 0
