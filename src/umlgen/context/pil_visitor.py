@@ -96,7 +96,6 @@ class PILVisitor(object):
     
     def _circle_pos(self, radius, num_pos, all_pos):
         px = 0
-        py = 0
         
         if num_pos < 0.25*all_pos:
             #print "one", num_pos, all_pos
