@@ -2,6 +2,7 @@
 
 from PIL import Image, ImageDraw
 import math
+from umlgen.context.model import ENTITY_TYPE_HUMAN
 
 class PILVisitor(object):
     def __init__(self, size):
@@ -60,16 +61,27 @@ class PILVisitor(object):
     def visit_entity(self, entity):
         radius = 160
         entity_size = (80, 60)
+        
+        
+        
         pos = self._circle_pos(radius, self._entity_num, len(self._entities)-1)
         self._entity_num = self._entity_num + 1
         
         self._entity_positions[entity.get_id()] = (pos[0]+self._size[0]/2, 
                                                    pos[1]+self._size[1]/2)
         
-        self._ctx.rectangle([(pos[0]+self._size[0]/2-entity_size[0]/2,
-                              pos[1]+self._size[1]/2-entity_size[1]/2),
-                             (pos[0]+self._size[0]/2+entity_size[0]/2,
-                              pos[1]+self._size[1]/2+entity_size[1]/2)], "#4444DD")
+        if entity.get_type() == ENTITY_TYPE_HUMAN:
+            human_actor = Image.open("../images/stick.png")
+            entity_size = human_actor.size
+            self._image.paste(human_actor, 
+                              (int(pos[0]+self._size[0]/2-entity_size[0]/2),
+                               int(pos[1]+self._size[1]/2-entity_size[1]/2)), 
+                              human_actor)
+        else:
+            self._ctx.rectangle([(pos[0]+self._size[0]/2-entity_size[0]/2,
+                                  pos[1]+self._size[1]/2-entity_size[1]/2),
+                                 (pos[0]+self._size[0]/2+entity_size[0]/2,
+                                  pos[1]+self._size[1]/2+entity_size[1]/2)], "#4444DD")
     
     def _circle_pos(self, radius, num_pos, all_pos):
         px = 0

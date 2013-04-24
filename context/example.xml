@@ -21,6 +21,11 @@
             <label>HDE</label>
             <type>human</type>
         </entity>
+        <entity>
+            <id>e_2</id>
+            <label>ijo</label>
+            <type>human</type>
+        </entity>
     </entities>
     
     <!-- a collection of connections -->
@@ -46,6 +51,14 @@
             <from>p_0</from>
             <!-- use id from process or entities -->
             <to>0</to>
+            <!-- is empty if omitted -->
+            <label>a connection</label>
+        </connection>
+        <connection>
+            <!-- use id from process or entities -->
+            <from>e_2</from>
+            <!-- use id from process or entities -->
+            <to>e_1</to>
             <!-- is empty if omitted -->
             <label>a connection</label>
         </connection>
