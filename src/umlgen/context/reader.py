@@ -23,7 +23,11 @@ class XMLReader(object):
         connections_tag = root.find("connections")
         
         for tag in connections_tag.findall("connection"):
-            label = tag.find("label").text.strip()
+            label = ""
+            try:
+                label = tag.find("label").text.strip()
+            except:
+                pass
             c_from = tag.find("from").text.strip()
             c_to = tag.find("to").text.strip()
             conn = Connection(label)
@@ -35,9 +39,18 @@ class XMLReader(object):
         entities = {}
         
         for tag in entities_tag.findall("entity"):
-            label = tag.find("label").text.strip()
+            label = ""
+            try:
+                label = tag.find("label").text.strip()
+            except:
+                pass
             eid = tag.find("id").text.strip()
-            etype = tag.find("type").text.strip()
+            
+            etype = "system"
+            try:
+                etype = tag.find("type").text.strip()
+            except:
+                pass
             
             e_type = ENTITY_TYPE_SYSTEM
             if etype == "human":
@@ -51,7 +64,11 @@ class XMLReader(object):
     
     def _get_process(self, root):
         tag = root.find("process")
-        label = tag.find("label").text.strip()
+        label = ""
+        try:
+            label = tag.find("label").text.strip()
+        except:
+            pass
         pid = tag.find("id").text.strip()
         return Process(pid, label)
     
