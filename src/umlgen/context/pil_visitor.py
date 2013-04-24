@@ -67,7 +67,9 @@ class PILVisitor(object):
                            self._size[1]/2+process_size[1]/2), 
                           "#FFFFFF", "#121212")
         
-        self._ctx.text((self._size[0]/2-process_size[0]/2,
+        font_size = self._ctx.textsize(process.get_label(), self._font)
+        
+        self._ctx.text((self._size[0]/2-font_size[0]/2,
                         self._size[1]/2+process_size[1]/2+10),
                        process.get_label(), "#121212", self._font)
         
@@ -99,7 +101,9 @@ class PILVisitor(object):
                                  (pos[0]+entity_size[0]/2,
                                   pos[1]+entity_size[1]/2)], "#FFFFFF", "#121212")
             
-        self._ctx.text((pos[0]-entity_size[0]/2,
+        font_size = self._ctx.textsize(entity.get_label(), self._font)
+            
+        self._ctx.text((pos[0]-font_size[0]/2,
                         pos[1]+entity_size[1]/2+10),
                        entity.get_label(), "#121212", self._font)
     
