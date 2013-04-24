@@ -41,6 +41,11 @@ class PILVisitor(object):
         for entity_id in self._entities:
             if entity_id != self._process_id:
                 self._draw_entity(self._entities[entity_id])
+            else:
+                self._draw_process(self._entities[entity_id])
+                
+        for entity_id in self._entities:
+            self._draw_connection_texts(self._entities[entity_id])
                 
     def _draw_connections(self, entity):
         children = entity.get_children()
@@ -76,14 +81,23 @@ class PILVisitor(object):
             self._ctx.line([arrow_pos, change1], "#ABABAB", 2)
             self._ctx.line([arrow_pos, change2], "#ABABAB", 2)
             
+    def _draw_connection_texts(self, entity):
+        children = entity.get_children()
+        
+        from_pos = self._entity_positions[entity.get_id()]
+        
+        for child in children:
+            to_pos = self._entity_positions[child["child"].get_id()]
             self._ctx.text(((from_pos[0]+to_pos[0])/2+10, (from_pos[1]+to_pos[1])/2+10),
                        child["connection"].get_label(), "#121212", self._font)
-            
     
     
     def visit_process(self, process):
         self._process_id = process.get_id()
         self._entity_positions[process.get_id()] = (self._size[0]/2, self._size[1]/2)
+        
+        
+    def _draw_process(self, process):
         process_size = (100, 100)
         self._ctx.ellipse(
                           (self._size[0]/2-process_size[0]/2, 

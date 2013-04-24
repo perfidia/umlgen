@@ -61,6 +61,7 @@ class ContextDiagram(object):
         
     def accept(self, v):
         v.visit_context_diagram(self)
-        self._process.accept(v)
+        if not v.visited(self._process):
+            self._process.accept(v)
 
 
