@@ -50,8 +50,8 @@ class PILVisitor(object):
         for child in children:
             to_pos = self._entity_positions[child["child"].get_id()]
             
-            self._ctx.line([from_pos, to_pos], "#00FF00", 2)
-            self._ctx.text(((from_pos[0]+to_pos[0])/2, (from_pos[1]+to_pos[1])/2),
+            self._ctx.line([from_pos, to_pos], "#ABABAB", 2)
+            self._ctx.text(((from_pos[0]+to_pos[0])/2+10, (from_pos[1]+to_pos[1])/2+10),
                        child["connection"].get_label(), "#121212", self._font)
             
     
@@ -65,7 +65,7 @@ class PILVisitor(object):
                            self._size[1]/2-process_size[1]/2,
                            self._size[0]/2+process_size[0]/2,
                            self._size[1]/2+process_size[1]/2), 
-                          "#991212")
+                          "#FFFFFF", "#121212")
         
         self._ctx.text((self._size[0]/2-process_size[0]/2,
                         self._size[1]/2+process_size[1]/2+10),
@@ -97,7 +97,7 @@ class PILVisitor(object):
             self._ctx.rectangle([(pos[0]-entity_size[0]/2,
                                   pos[1]-entity_size[1]/2),
                                  (pos[0]+entity_size[0]/2,
-                                  pos[1]+entity_size[1]/2)], "#4444DD")
+                                  pos[1]+entity_size[1]/2)], "#FFFFFF", "#121212")
             
         self._ctx.text((pos[0]-entity_size[0]/2,
                         pos[1]+entity_size[1]/2+10),
