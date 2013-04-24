@@ -28,7 +28,8 @@ class PILVisitor(object):
         self._entities = context_diagram.all_entities
         
         for entity_id in self._entities:
-            self._entities[entity_id].accept(self)
+            if not self.visited(self._entities[entity_id]):
+                self._entities[entity_id].accept(self)
     
     
     def visit_process(self, process):
@@ -42,32 +43,42 @@ class PILVisitor(object):
         
         
     def visit_entity(self, entity):
-        radius = 200
+        print entity.get_id()
+        radius = 160
+        entity_size = (80, 60)
         pos = self._circle_pos(radius, self._entity_num, len(self._entities)-1)
         self._entity_num = self._entity_num + 1
-        self._ctx.rectangle([(pos[0]+self._size[0]/2, pos[1]+self._size[1]/2),
-                             (pos[0]+80+self._size[0]/2, pos[1]+60+self._size[1]/2)], "#00FF00")
+        self._ctx.rectangle([(pos[0]+self._size[0]/2-entity_size[0]/2,
+                              pos[1]+self._size[1]/2-entity_size[1]/2),
+                             (pos[0]+self._size[0]/2+entity_size[0]/2,
+                              pos[1]+self._size[1]/2+entity_size[1]/2)], "#00FF00")
     
     def _circle_pos(self, radius, num_pos, all_pos):
         px = 0
         py = 0
         
-        if num_pos < all_pos/4:
+        if num_pos < 0.25*all_pos:
+            #print "one", num_pos, all_pos
             px = -4*radius*float(num_pos)/float(all_pos)
         
-        elif num_pos < all_pos/2:
+        elif num_pos < 0.5*all_pos:
+            #print "two", num_pos, all_pos
             px = -4*radius*float(0.5*all_pos-num_pos)/float(all_pos)
             
         elif num_pos < 0.75*all_pos:
+            #print "three", num_pos, all_pos
             px = 4*radius*float(num_pos - 0.5*all_pos)/float(all_pos)
             
         else:
+            #print "four", num_pos, all_pos
             px = 4*radius*float(all_pos-num_pos)/float(all_pos)
             
         val = radius*radius-px*px
         if val < 0:
             val = 0
         py = math.sqrt(val)
+        
+        print px
         
         if num_pos < 0.25*all_pos or num_pos > 0.75*all_pos:
             py = -py

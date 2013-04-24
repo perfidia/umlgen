@@ -29,8 +29,8 @@ class Entity(object):
                 child["child"].accept(v)
         
     def accept(self, v):
-        self._accept_children(v)
         v.visit_entity(self)
+        self._accept_children(v)
                 
     def add_child(self, child, connection):
         self._children.append({ "child": child, "connection": connection })
@@ -41,8 +41,8 @@ class Process(Entity):
         super(Process, self).__init__(p_id, p_label, ENTITY_TYPE_SYSTEM)
         
     def accept(self, v):
-        self._accept_children(v)
         v.visit_process(self)
+        self._accept_children(v)
         
         
 class Connection(object):
@@ -60,7 +60,7 @@ class ContextDiagram(object):
         self.all_entities = {}
         
     def accept(self, v):
-        self._process.accept(v)
         v.visit_context_diagram(self)
+        self._process.accept(v)
 
 
