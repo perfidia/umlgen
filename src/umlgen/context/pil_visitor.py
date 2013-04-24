@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-from PIL import Image, ImageDraw
-import math
+from PIL import Image, ImageDraw, ImageFont
 from umlgen.context.model import ENTITY_TYPE_HUMAN
+import math
 
 class PILVisitor(object):
     def __init__(self, size):
@@ -13,6 +13,7 @@ class PILVisitor(object):
         self._entities = {}
         self._entity_num = 0
         self._entity_positions = {}
+        self._font = ImageFont.truetype("../fonts/OpenSans-Regular.ttf", 12)
         
     def save(self, path):
         self._image.save(path)
