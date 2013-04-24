@@ -11,6 +11,7 @@ class PILVisitor(object):
         self._ctx = ImageDraw.Draw(self._image)
         self._entities = {}
         self._entity_num = 0
+        self._entity_positions = {}
         
     def save(self, path):
         self._image.save(path)
@@ -30,28 +31,45 @@ class PILVisitor(object):
         for entity_id in self._entities:
             if not self.visited(self._entities[entity_id]):
                 self._entities[entity_id].accept(self)
+                
+        for entity_id in self._entities:
+            self._draw_connections(self._entities[entity_id])
+                
+    def _draw_connections(self, entity):
+        children = entity.get_children()
+        
+        from_pos = self._entity_positions[entity.get_id()]
+        
+        for child in children:
+            to_pos = self._entity_positions[child["child"].get_id()]
+            
+            self._ctx.line([from_pos, to_pos], "#00FF00", 2)
     
     
     def visit_process(self, process):
+        self._entity_positions[process.get_id()] = (self._size[0]/2, self._size[1]/2)
         process_size = (100, 100)
         self._ctx.ellipse(
                           (self._size[0]/2-process_size[0]/2, 
                            self._size[1]/2-process_size[1]/2,
                            self._size[0]/2+process_size[0]/2,
                            self._size[1]/2+process_size[1]/2), 
-                          "#FF0000")
+                          "#991212")
         
         
     def visit_entity(self, entity):
-        print entity.get_id()
         radius = 160
         entity_size = (80, 60)
         pos = self._circle_pos(radius, self._entity_num, len(self._entities)-1)
         self._entity_num = self._entity_num + 1
+        
+        self._entity_positions[entity.get_id()] = (pos[0]+self._size[0]/2, 
+                                                   pos[1]+self._size[1]/2)
+        
         self._ctx.rectangle([(pos[0]+self._size[0]/2-entity_size[0]/2,
                               pos[1]+self._size[1]/2-entity_size[1]/2),
                              (pos[0]+self._size[0]/2+entity_size[0]/2,
-                              pos[1]+self._size[1]/2+entity_size[1]/2)], "#00FF00")
+                              pos[1]+self._size[1]/2+entity_size[1]/2)], "#4444DD")
     
     def _circle_pos(self, radius, num_pos, all_pos):
         px = 0
@@ -78,7 +96,7 @@ class PILVisitor(object):
             val = 0
         py = math.sqrt(val)
         
-        print px
+        #print px
         
         if num_pos < 0.25*all_pos or num_pos > 0.75*all_pos:
             py = -py
