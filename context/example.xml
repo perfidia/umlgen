@@ -27,9 +27,25 @@
     <connections>
         <connection>
             <!-- use id from process or entities -->
-            <from>e_1</from>
+            <from>p_0</from>
             <!-- use id from process or entities -->
-            <to>p_0</to>
+            <to>e_1</to>
+            <!-- is empty if omitted -->
+            <label>a connection</label>
+        </connection>
+        <connection>
+            <!-- use id from process or entities -->
+            <from>0</from>
+            <!-- use id from process or entities -->
+            <to>e_1</to>
+            <!-- is empty if omitted -->
+            <label>a connection</label>
+        </connection>
+        <connection>
+            <!-- use id from process or entities -->
+            <from>p_0</from>
+            <!-- use id from process or entities -->
+            <to>0</to>
             <!-- is empty if omitted -->
             <label>a connection</label>
         </connection>
