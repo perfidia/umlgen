@@ -5,12 +5,14 @@ import umlgen.state.model as orginal
 
 def StateDiagram_att_to_xml(self):
 	node = ET.Element("state-diagram")
-
+	
+	states = ET.SubElement(node, "states")
 	for c in self.states:
-		c.to_xml(node)
+		c.to_xml(states)
 
+	transitions = ET.SubElement(node, "transitions")
 	for c in self.transitions:
-		c.to_xml(node)
+		c.to_xml(transitions)
 		
 	tree = ET.ElementTree(node)
 	output = StringIO.StringIO()
@@ -22,43 +24,26 @@ def StateDiagram_att_to_xml(self):
 
 def State_att_to_xml(self, parent):
 	node = ET.SubElement(parent, "state")
-
 	name = ET.SubElement(node, "name")
 	name.text = self.name
 	on_entry = ET.SubElement(node, "on_entry")
 	on_entry.text = self.on_entry
 	on_exit = ET.SubElement(node, "on_exit")
-	on_exit.text = self.name
-
-	predecessors = ET.SubElement(node, "predecessors")
-
-	for c in self.predecessors:
-		c.to_xml(predecessors)
-
-	successors = ET.SubElement(node, "successors")
-
-	for c in self.successors:
-		c.to_xml(successors)
-		
+	on_exit.text = self.on_exit
+	
 	return node
 
 def InitialState_att_to_xml(self, parent):
 	node = ET.SubElement(parent, "initial-state")
-
-	successors = ET.SubElement(node, "successors")
-
-	for c in self.successors:
-		c.to_xml(successors)
+	name = ET.SubElement(node, "name")
+	name.text = self.name
 
 	return node
 
 def FinalState_att_to_xml(self, parent):
 	node = ET.SubElement(parent, "final-state")
-
-	predecessors = ET.SubElement(node, "predecessors")
-
-	for c in self.predecessors:
-		c.to_xml(predecessors)
+	name = ET.SubElement(node, "name")
+	name.text = self.name
 
 	return node
 
@@ -66,9 +51,9 @@ def Transition_att_to_xml(self, parent):
 	node = ET.SubElement(parent, "transition")
 
 	predecessor = ET.SubElement(node, "predecessor")
-	predecessor.text = self.predecessor
+	self.predecessor.to_xml(predecessor)
 	successor = ET.SubElement(node, "successor")
-	successor.text = self.successor
+	self.successor.to_xml(successor)
 	event = ET.SubElement(node, "event")
 	event.text = self.event
 	precondition = ET.SubElement(node, "precondition")

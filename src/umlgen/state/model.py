@@ -16,35 +16,17 @@ class StateDiagram(object):
 		return self
 
 class State(object):
-	def __init__(self, name, on_entry = None, on_exit = None, predecessors = None, successors = None):
+	def __init__(self, name, on_entry = None, on_exit = None):
 		self.name = name
 		self.on_entry = on_entry
 		self.on_exit = on_exit
-		self.predecessors = []
-		self.successors = []
-
-		if predecessors:
-			self.predecessors = predecessors
-
-		if successors:
-			self.successors = successors
-
-	def append_predecessor(self, predecessor):
-		self.predecessors.append(predecessor)
-
-		return self
-
-	def append_successor(self, successor):
-		self.successors.append(successor)
-
-		return self
 
 class InitialState(State):
-	def __init__(self, successors = None):
+	def __init__(self):
 		State.__init__(self, "initial")
 
 class FinalState(State):
-	def __init__(self, predecessors = None):
+	def __init__(self):
 		State.__init__(self, "final")
 
 class Transition(object):
