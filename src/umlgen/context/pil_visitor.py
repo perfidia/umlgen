@@ -138,7 +138,7 @@ class PILVisitor(object):
         font_size = self._ctx.textsize(process.get_label(), self._font)
         
         self._ctx.text((self._size[0]/2-font_size[0]/2,
-                        self._size[1]/2+process_size[1]/2+10*self._multiplier),
+                        self._size[1]/2-font_size[1]/2),
                        process.get_label(), "#121212", self._font)
         
         
@@ -155,6 +155,7 @@ class PILVisitor(object):
     def _draw_entity(self, entity):
         entity_size = (160*self._multiplier, 120*self._multiplier)
         pos = self._entity_positions[entity.get_id()]
+        font_size = self._ctx.textsize(entity.get_label(), self._font)
         
         if entity.get_type() == ENTITY_TYPE_HUMAN:
             human_actor = Image.open("../images/stick.png")
@@ -163,17 +164,18 @@ class PILVisitor(object):
                               (int(pos[0]-entity_size[0]/2),
                                int(pos[1]-entity_size[1]/2)), 
                               human_actor)
+            self._ctx.text((pos[0]-font_size[0]/2,
+                            pos[1]+entity_size[1]/2+10*self._multiplier),
+                            entity.get_label(), "#121212", self._font)
         else:
             self._ctx.rectangle([(pos[0]-entity_size[0]/2,
                                   pos[1]-entity_size[1]/2),
                                  (pos[0]+entity_size[0]/2,
                                   pos[1]+entity_size[1]/2)], "#FFFFFF", "#121212")
             
-        font_size = self._ctx.textsize(entity.get_label(), self._font)
-            
-        self._ctx.text((pos[0]-font_size[0]/2,
-                        pos[1]+entity_size[1]/2+10*self._multiplier),
-                       entity.get_label(), "#121212", self._font)
+            self._ctx.text((pos[0]-font_size[0]/2,
+                            pos[1]-font_size[1]/2),
+                            entity.get_label(), "#121212", self._font)
     
     def _circle_pos(self, radius, num_pos, all_pos):
         px = 0
