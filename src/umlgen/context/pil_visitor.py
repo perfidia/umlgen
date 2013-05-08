@@ -60,11 +60,11 @@ class PILVisitor(object):
             
             self._ctx.line([from_pos, to_pos], "#ABABAB", 2)
             
-            arrow_pos = (0.7*to_pos[0] + 0.3*from_pos[0],
-                           0.7*to_pos[1] + 0.3*from_pos[1])
+            arrow_pos = (0.6*to_pos[0] + 0.4*from_pos[0],
+                           0.6*to_pos[1] + 0.4*from_pos[1])
             
-            arrow_pos2 = (0.65*to_pos[0] + 0.35*from_pos[0],
-                           0.65*to_pos[1] + 0.35*from_pos[1])
+            arrow_pos2 = (0.55*to_pos[0] + 0.45*from_pos[0],
+                           0.55*to_pos[1] + 0.45*from_pos[1])
             
             arrow_change = (arrow_pos2[0] - arrow_pos[0],
                             arrow_pos2[1] - arrow_pos[1])
@@ -99,11 +99,25 @@ class PILVisitor(object):
         children = entity.get_children()
         
         from_pos = self._entity_positions[entity.get_id()]
+        from_wage = 0.45
+        to_wage = 0.55
+        way_x = 10
+        way_y = 10
         
         for child in children:
             to_pos = self._entity_positions[child["child"].get_id()]
-            self._ctx.text(((from_pos[0]+to_pos[0])/2+10*self._multiplier,
-                            (from_pos[1]+to_pos[1])/2+10*self._multiplier),
+            
+            if to_pos[0] < from_pos[0]:
+                way_x = -10
+            else:
+                way_x = 10
+            if to_pos[1] < from_pos[1]:
+                way_y = -10
+            else:
+                way_y = 10    
+            
+            self._ctx.text(((from_wage*from_pos[0]+to_wage*to_pos[0])+way_x*self._multiplier,
+                            (from_wage*from_pos[1]+to_wage*to_pos[1])+way_y*self._multiplier),
                        child["connection"].get_label(), "#121212", self._font)
     
     
