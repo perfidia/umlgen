@@ -1,0 +1,11 @@
+Context diagram xml
+===================
+
+The context/example.xml file is commented so that you can quickly start creating your own context diagrams, the elements of the xml:
+
+- `context` is the root node and must always be in the xml config file
+- `process` is the main `entity` which other entities will graphically circle around
+- `entities` can have many `entity` nodes, every `entity` consists of the `id`, `label` and `type` (`process` is an `entity` with type=system)
+- `connections` can have many `connection` nodes, a `connection` consists of a `from` node which must be one of the available IDs, `to` node - the same situation and a connection `label` node
+
+Now you can start creating your own diagrams!

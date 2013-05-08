@@ -11,6 +11,9 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+   _static/install.txt
+   _static/getting_started.txt
+   _static/context_diagram.txt
 
 
 Indices and tables

@@ -1,0 +1,16 @@
+Installation
+============
+
+In order to install Umlgen follow the inscrutcions below.
+
+Simple
+----------
+
+    python setup.py install
+
+Using eggs
+----------
+
+    python setup.py bdist_egg
+    cd dist
+    easy_install <package_name>
