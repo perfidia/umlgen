@@ -1,0 +1,92 @@
+<!-- there has to be some root -->
+<context>
+    <!-- there is only one process node -->
+    <process>
+        <label>system</label>
+        <!-- id is a string -->
+        <id>p_0</id>
+    </process>
+    
+    <!-- collection of entities -->
+    <entities>
+        <entity>
+            <!-- id is a string -->
+            <id>account1</id>
+            <label>Account 1</label>
+            <!-- type can be a human or a system -->
+            <type>human</type>
+        </entity>
+        <entity>
+            <id>account2</id>
+            <label>Account 2</label>
+            <type>human</type>
+        </entity>
+        <entity>
+            <id>database1</id>
+            <label>DBMS</label>
+            <type>system</type>
+        </entity>
+        <entity>
+            <id>database2</id>
+            <label>DBMS</label>
+            <type>system</type>
+        </entity>
+        <entity>
+            <id>server</id>
+            <label>worker</label>
+            <type>system</type>
+        </entity>
+    </entities>
+    
+    <!-- a collection of connections -->
+    <connections>
+        <connection>
+            <!-- use id from process or entities -->
+            <from>account1</from>
+            <!-- use id from process or entities -->
+            <to>p_0</to>
+            <!-- is empty if omitted -->
+            <label>use</label>
+        </connection>
+        <connection>
+            <!-- use id from process or entities -->
+            <from>account2</from>
+            <!-- use id from process or entities -->
+            <to>p_0</to>
+            <!-- is empty if omitted -->
+            <label>interacts with</label>
+        </connection>
+        <connection>
+            <!-- use id from process or entities -->
+            <from>p_0</from>
+            <!-- use id from process or entities -->
+            <to>account2</to>
+            <!-- is empty if omitted -->
+            <label>responds to</label>
+        </connection>
+        <connection>
+            <!-- use id from process or entities -->
+            <from>p_0</from>
+            <!-- use id from process or entities -->
+            <to>server</to>
+            <!-- is empty if omitted -->
+            <label>sends data to</label>
+        </connection>
+        <connection>
+            <!-- use id from process or entities -->
+            <from>p_0</from>
+            <!-- use id from process or entities -->
+            <to>database1</to>
+            <!-- is empty if omitted -->
+            <label>stores data to</label>
+        </connection>
+        <connection>
+            <!-- use id from process or entities -->
+            <from>p_0</from>
+            <!-- use id from process or entities -->
+            <to>database2</to>
+            <!-- is empty if omitted -->
+            <label>stores data to</label>
+        </connection>
+    </connections>
+</context>
