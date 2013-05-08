@@ -23,6 +23,8 @@ Installation
 Getting started
 ---------------
 
+### Context diagram
+
 To use the context diagram tool you need to have PIL with TTF support installed
 
 The context diagram tool can be found in the folder src under the name of umlgen-context. When you type `umlgen-context --help` you will see
