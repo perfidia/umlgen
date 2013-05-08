@@ -5,19 +5,22 @@ from umlgen.context.model import ENTITY_TYPE_HUMAN
 import math
 
 class PILVisitor(object):
-    def __init__(self, size):
-        self._size = size
+    def __init__(self, size, multiplier = 1.0):
+        self._multiplier = multiplier
+        self._size = (size[0]*2, size[1]*2)
+        self._sizeToSave = size
         self._visited_ids = []
-        self._image = Image.new("RGB", size, "#FFFFFF")
+        self._image = Image.new("RGB", self._size, "#FFFFFF")
         self._ctx = ImageDraw.Draw(self._image)
         self._entities = {}
         self._entity_num = 0
         self._entity_positions = {}
-        self._font = ImageFont.truetype("../fonts/OpenSans-Regular.ttf", 12)
+        self._font = ImageFont.truetype("../fonts/OpenSans-Regular.ttf", int(24*multiplier))
         self._process_id = None
         
     def save(self, path):
-        self._image.save(path)
+        img = self._image.resize(self._sizeToSave, Image.ANTIALIAS)
+        img.save(path)
         
     def visited(self, element):
         e_id = element.get_id()
@@ -80,7 +83,8 @@ class PILVisitor(object):
                 vec = (10, -divided*10)
                 
             vec_length = math.sqrt(vec[0]*vec[0]+vec[1]*vec[1])
-            vec_normalized = (vec[0]*6/vec_length, vec[1]*6/vec_length)
+            vec_normalized = (vec[0]*6*self._multiplier/vec_length,
+                              vec[1]*6*self._multiplier/vec_length)
                 
             change1 = (arrow_pos2[0] + vec_normalized[0],
                        arrow_pos2[1] + vec_normalized[1])
@@ -98,7 +102,8 @@ class PILVisitor(object):
         
         for child in children:
             to_pos = self._entity_positions[child["child"].get_id()]
-            self._ctx.text(((from_pos[0]+to_pos[0])/2+10, (from_pos[1]+to_pos[1])/2+10),
+            self._ctx.text(((from_pos[0]+to_pos[0])/2+10*self._multiplier,
+                            (from_pos[1]+to_pos[1])/2+10*self._multiplier),
                        child["connection"].get_label(), "#121212", self._font)
     
     
@@ -108,7 +113,7 @@ class PILVisitor(object):
         
         
     def _draw_process(self, process):
-        process_size = (100, 100)
+        process_size = (200*self._multiplier, 200*self._multiplier)
         self._ctx.ellipse(
                           (self._size[0]/2-process_size[0]/2, 
                            self._size[1]/2-process_size[1]/2,
@@ -119,13 +124,13 @@ class PILVisitor(object):
         font_size = self._ctx.textsize(process.get_label(), self._font)
         
         self._ctx.text((self._size[0]/2-font_size[0]/2,
-                        self._size[1]/2+process_size[1]/2+10),
+                        self._size[1]/2+process_size[1]/2+10*self._multiplier),
                        process.get_label(), "#121212", self._font)
         
         
         
     def visit_entity(self, entity):
-        radius = 160
+        radius = 320*self._multiplier
         
         pos = self._circle_pos(radius, self._entity_num, len(self._entities)-1)
         self._entity_num = self._entity_num + 1
@@ -134,7 +139,7 @@ class PILVisitor(object):
                                                    pos[1]+self._size[1]/2)
         
     def _draw_entity(self, entity):
-        entity_size = (80, 60)
+        entity_size = (160*self._multiplier, 120*self._multiplier)
         pos = self._entity_positions[entity.get_id()]
         
         if entity.get_type() == ENTITY_TYPE_HUMAN:
@@ -153,7 +158,7 @@ class PILVisitor(object):
         font_size = self._ctx.textsize(entity.get_label(), self._font)
             
         self._ctx.text((pos[0]-font_size[0]/2,
-                        pos[1]+entity_size[1]/2+10),
+                        pos[1]+entity_size[1]/2+10*self._multiplier),
                        entity.get_label(), "#121212", self._font)
     
     def _circle_pos(self, radius, num_pos, all_pos):
