@@ -27,11 +27,11 @@ To use the context diagram tool you need to have PIL with TTF support installed
 
 The context diagram tool can be found in the folder src under the name of umlgen-context. When you type `umlgen-context --help` you will see
 the following options:
-* -c FILE, to specify a config file to use
-* -o OUTPUT to specify an output file to use
-* -x WIDTH to specify the width of the output image
-* -y HEIGHT to specify the height of the output image
-* -m MULTIPLIER to specify how big we want the UML object on the image to be (0.5 means half the original size, 2.0 means two times as big)
+* `-c FILE`, to specify a config file to use
+* `-o OUTPUT` to specify an output file to use
+* `-x WIDTH` to specify the width of the output image
+* `-y HEIGHT` to specify the height of the output image
+* `-m MULTIPLIER` to specify how big we want the UML object on the image to be (0.5 means half the original size, 2.0 means two times as big)
 
 so, to see an example usage, type:
 
