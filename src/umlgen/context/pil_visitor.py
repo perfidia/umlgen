@@ -66,16 +66,26 @@ class PILVisitor(object):
             arrow_change = (arrow_pos2[0] - arrow_pos[0],
                             arrow_pos2[1] - arrow_pos[1])
             
+            arrow_change_length = math.sqrt(
+                                            arrow_change[0]*arrow_change[0] + 
+                                            arrow_change[1]*arrow_change[1])
+            
+            arrow_change_normalized = (arrow_change[0]/arrow_change_length, 
+                             arrow_change[1]/arrow_change_length)
+            
             vec = (0, -10)
             
             if arrow_change[1] != 0:
-                divided = float(arrow_change[0])/float(arrow_change[1])
+                divided = float(arrow_change_normalized[0])/float(arrow_change_normalized[1])
                 vec = (10, -divided*10)
                 
-            change1 = (arrow_pos2[0] + vec[0],
-                       arrow_pos2[1] + vec[1])
-            change2 = (arrow_pos2[0] - vec[0],
-                       arrow_pos2[1] - vec[1])
+            vec_length = math.sqrt(vec[0]*vec[0]+vec[1]*vec[1])
+            vec_normalized = (vec[0]*6/vec_length, vec[1]*6/vec_length)
+                
+            change1 = (arrow_pos2[0] + vec_normalized[0],
+                       arrow_pos2[1] + vec_normalized[1])
+            change2 = (arrow_pos2[0] - vec_normalized[0],
+                       arrow_pos2[1] - vec_normalized[1])
             
             
             self._ctx.line([arrow_pos, change1], "#ABABAB", 2)
