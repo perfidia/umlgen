@@ -8,66 +8,74 @@ class XMLReader(object):
 		self.retval = None;
 
 	def __parseTransition(self, node):
-		for n in node.getchildren():
-			if n.tag == 'transition':
-				for f in n.getchildren():
-					if f.tag == 'predecessor':
-						predecessor = f.text
+		if node.tag == 'transition':
+			for n in node.getchildren():
+				if n.tag == 'predecessor':
+					for k in n.getchildren():
+						for l in k.getchildren():
+							if l.tag == 'name':
+								for m in self.retval.states:
+									if l.text == m.name:
+										predecessor = m
+				else: 
+					if n.tag == 'successor':
+						for k in n.getchildren():
+							for l in k.getchildren():
+								if l.tag == 'name':
+									for m in self.retval.states:
+										if l.text == m.name:
+											successor = m
 					else: 
-						if f.tag == 'successor':
-							successor = f.text
+						if n.tag == 'event':
+							event = n.text
 						else: 
-							if f.tag == 'event':
-								event = f.text
+							if n.tag == 'precondition':
+								precondition = n.text
 							else: 
-								if f.tag == 'precondition':
-									precondition = f.text
-								else: 
-									if f.tag == 'postcondition':
-										postcondition = f.text
-									else:
-										raise ValueError('Unknown node in transition tag found')
-				transition = model.Transition(predecessor, successor, event, precondition, postcondition)
-				self.retval.append_transition(transition)
-			else:
-				raise ValueError('Unknown node in transitions tag found')
+								if n.tag == 'postcondition':
+									postcondition = n.text
+								else:
+									raise ValueError('Unknown node in transition tag found')
+			transition = model.Transition(predecessor, successor, event, precondition, postcondition)
+			self.retval.append_transition(transition)
+		else:
+			raise ValueError('Unknown node in transitions tag found')
 
 	def __parseState(self, node):
-		for n in node.getchildren():
-			if n.tag == 'state':
-				for f in n.getchildren():
-					if f.tag == 'name':
-						name = f.text
-					else: 
-						if f.tag == 'on_entry':
-							on_entry = f.text
-						else: 
-							if f.tag == 'on_exit':
-								on_exit = f.text
-							else:
-								raise ValueError('Unknown node in state tag found')
-				state = model.State(name, on_entry, on_exit)
-				self.retval.append_state(state)
-			else: 
-				if n.tag == 'initial-state':
-					for f in n.getchildren():
-						if f.tag == 'name':
-							name = f.text
-						else:
-							raise ValueError('Unknown node in initial-state tag found')
-					initial_state = model.InitialState()
-					self.retval.append_state(initial_state)
+		if node.tag == 'state':
+			for n in node.getchildren():
+				if n.tag == 'name':
+					name = n.text
 				else: 
-					if n.tag == 'final-state':
-						for f in n.getchildren():
-							if f.tag == 'name':
-								name = f.text
-							else:
-								raise ValueError('Unknown node in final-state tag found')
-						final_state = model.FinalState()
-						self.retval.append_state(final_state)
+					if n.tag == 'on_entry':
+						on_entry = n.text
+					else: 
+						if n.tag == 'on_exit':
+							on_exit = n.text
+						else:
+							raise ValueError('Unknown node in state tag found')
+			state = model.State(name, on_entry, on_exit)
+			self.retval.append_state(state)
+		else: 
+			if node.tag == 'initial-state':
+				for n in node.getchildren():
+					if n.tag == 'name':
+						name = n.text
 					else:
-						raise ValueError('Unknown node in states tag found')
+						raise ValueError('Unknown node in initial-state tag found')
+				initial_state = model.InitialState()
+				self.retval.append_state(initial_state)
+			else: 
+				if node.tag == 'final-state':
+					for n in node.getchildren():
+						if n.tag == 'name':
+							name = n.text
+						else:
+							raise ValueError('Unknown node in final-state tag found')
+					final_state = model.FinalState()
+					self.retval.append_state(final_state)
+				else:
+					raise ValueError('Unknown node in states tag found')
 
 	def __parseStateDiagram(self, node):
 		if node.tag != 'state-diagram':
