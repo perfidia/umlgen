@@ -23,7 +23,7 @@ class Test(unittest.TestCase):
 
         path.append('samples')
         path.append('context')
-        path.append('example.xml')
+        path.append('example0.xml')
         
         self.reader = XMLReader(os.sep.join(path))
         self.diagram = self.reader.create_graph()
