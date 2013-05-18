@@ -208,7 +208,3 @@ class PILVisitor(object):
         
         return (px, py)
         
-        
-        
-    
-    

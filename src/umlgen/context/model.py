@@ -63,5 +63,3 @@ class ContextDiagram(object):
         v.visit_context_diagram(self)
         if not v.visited(self._process):
             self._process.accept(v)
-
-

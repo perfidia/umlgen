@@ -72,10 +72,3 @@ class XMLReader(object):
         pid = tag.find("id").text.strip()
         return Process(pid, label)
     
-    
-    
-    
-    
-    
-    
-    
