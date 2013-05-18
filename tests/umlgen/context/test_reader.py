@@ -5,14 +5,27 @@ Created on Apr 24, 2013
 '''
 import unittest
 from umlgen import XMLReader
-from model import *
-
+import os
 
 class Test(unittest.TestCase):
 
 
     def setUp(self):
-        self.reader = XMLReader("../samples/context/example.xml")
+        path = os.getcwd().split(os.sep)
+        previous = ''
+
+        for d in reversed(path[:]):
+            if not (d == 'umlgen' and previous != 'context'):
+                previous = path.pop()
+                continue
+
+            break
+
+        path.append('samples')
+        path.append('context')
+        path.append('example.xml')
+        
+        self.reader = XMLReader(os.sep.join(path))
         self.diagram = self.reader.create_graph()
 
 
