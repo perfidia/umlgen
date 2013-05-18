@@ -4,7 +4,7 @@ Created on May 8, 2013
 @author: matkra
 '''
 import unittest
-from reader import XMLReader
+from umlgen import XMLReader
 from model import *
 
 class Test(unittest.TestCase):

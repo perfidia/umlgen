@@ -4,7 +4,7 @@ Created on Apr 24, 2013
 @author: Mateusz Krawczynski
 '''
 import unittest
-from reader import XMLReader
+from umlgen import XMLReader
 from model import *
 
 
