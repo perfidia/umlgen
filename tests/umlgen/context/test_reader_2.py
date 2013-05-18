@@ -11,7 +11,7 @@ class Test(unittest.TestCase):
 
 
     def setUp(self):
-        self.reader = XMLReader("../context/example1.xml")
+        self.reader = XMLReader("../samples/context/example1.xml")
         self.diagram = self.reader.create_graph()
 
 
